@@ -1,9 +1,9 @@
-### Fundamentos
+# Fundamentos
 
 ## Configuración e inicio:
 - Instalar segun SO
-# Exploración de Docker Desktop:
-
+### Exploración de Docker Desktop:
+![Docker Desktop](images/docker_desktop.png)
 ¿Cómo navegar por la interfaz de Docker Desktop?
 Docker Desktop es una herramienta fundamental para los desarrolladores que desean optimizar sus procesos de desarrollo y despliegue de aplicaciones. Al abrir Docker Desktop, te encontrarás con una pantalla que puede parecer abrumadora al principio, pero conocer su estructura te permite aprovechar al máximo esta potente herramienta.
 
