@@ -1,3 +1,0 @@
-## Fundamentos
-
-Instalar segun SO
