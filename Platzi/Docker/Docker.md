@@ -388,6 +388,7 @@ A ese archivo debemos comenzar por agregarle un encabezado que sirva para defini
 
 #!/bin/bash
 Script en VS Code
+
 ![Script en VS Code](images/Script en VS Code.png)
 
 Ahora podemos indicarle al usuario que todo comenzará con la palabra echo que sirve para imprimir mensajes al usuario.
