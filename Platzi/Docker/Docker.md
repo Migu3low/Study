@@ -418,5 +418,147 @@ Todo está bien con este script ¿cierto? La cosa es que de aquí puedes comenza
 
 ¿Lo ves? ¡Hay muchísimo por mejorar y aprovechar aquí! Te recomiendo que dediques tiempo a este script y en cómo mejorarlo, te dará muy buena experiencia para poder ejercitar tus habilidades de bash aprovechando lo que ya sabes de Docker.
 
+### Inspección y capas de un contenedor
+
+```sudo docker run --name aminweb --rm -it -p 8080:80 aminespinoza/linktree:latest```
+
+Descargar la imagen de Docker Hub
+
+¿Por qué usar Docker para aprender sobre Linux?
+Sumergirse en el mundo de Docker puede llevarnos a cuestionar la necesidad de emplear máquinas virtuales tradicionales para aprender sobre sistemas operativos como Linux. A través de Docker, es posible descubrir la estructura y el funcionamiento interno de los contenedores que utilizamos día a día en nuestros proyectos. En este proceso, podemos identificar que muchas de estas tecnologías se basan en un núcleo Linux, lo cual nos proporciona una oportunidad única de aprendizaje.
+
+¿Cómo explorar el interior de un contenedor?
+Utilizar la línea de comandos nos ofrece una ventana para conocer más acerca de las imágenes que empleamos. Siguiendo unos sencillos pasos y valiéndose de un poco de curiosidad, podemos descubrir varios tips y peculiaridades de los contenedores.
+
+¿Cómo iniciar un contenedor en Docker?
+Ejecución básica: Usando el comando docker run, se puede iniciar un contenedor fácilmente. En Docker Desktop, verás que el contenedor se despliega inmediatamente.
+
+Identificar el comando de inicio: Al ejecutar docker ps en otra pestaña del terminal, se puede observar que dentro de las columnas aparece el comando que inicia el contenedor, como el archivo docker-entry-endpoint.sh.
+
+¿Cómo modificar el inicio de un contenedor?
+Al interrumpir una tarea en el terminal con Ctrl+C, el contenedor se detiene, lo que nos permite reescribir el comportamiento del comando inicial en Docker.
+
+Usar terminales alternas: Puedes iniciar el contenedor con diferentes terminales como bash, sh, o ash, modificando el comportamiento sin cambiar el archivo de entrada por defecto. Esto es útil para inspeccionar la estructura de Linux en el contenedor.
+Exploración del contenedor
+Comando ls: Dentro de terminales como bash, el comando ls permite ver la estructura de una distribución básica de Linux.
+
+Uso de docker inspect: Este comando, seguido del identificador del contenedor, despliega un JSON con información detallada sobre capacidades de red, puertos, y configuración predeterminada de la imagen. Es especialmente útil para comprender cómo las imágenes fueron configuradas por sus creadores, como en el caso de Nginx.
+
+¿Qué se puede aprender al explorar contenedores Docker?
+Explorar a fondo el JSON proporcionado por docker inspect permite descubrir aspectos fundamentales y parámetros de los contenedores, tales como:
+
+Elementos de red y almacenamiento: Aspectos cruciales para la gestión eficiente y segura de las aplicaciones.
+Propiedades del contenedor: Dado que la mayoría están basados en Linux, podemos aprender sobre sus configuraciones internas.
+Estas prácticas no solo enriquecen nuestro conocimiento sobre sistemas operativos, sino que también fomentan una sensibilidad única para saber qué esperar de cada imagen que utilizamos.
+
+Dedicarse a explorar diferentes imágenes Docker es una inversión de tiempo que ampliará significativamente tu comprensión en el manejo y estructura de contenedores. ¡Ánimo y sigue aprendiendo!
+
+Abro otra pestaña y en comandos de Linux teniendo en ejecución el contenedor en la otra pestaña, puede ver el identificador del contenedor con `sudo docker ps`
+
+Luego ejecuto `docker inspect d88723defc45`
+
+
+### Guardar y recuperar imágenes de Docker
+
+Pasar archivos de manera con usb
+
+`docker save aminespinoza/linktree > linktree.rar`
+
+Cargar la imagen desde un rar
+
+`docker load --input linktree.rar`
+
+### Docker compose
+
+Herramienta para organizar varios contenedores
+
+![compose1](images/Compose1.png)
+
+![compose2](images/Compose2.png)
+
+![compose3](images/Compose3.png)
+
+Compose es una herramienta para definir y ejecutar aplicaciones Docker multicontenedor. Con Compose, utilizas un archivo YAML para configurar los servicios de tu aplicación. Luego, con un solo comando, creas e inicias todos los servicios a partir de tu configuración.
+
+Compose funciona en todos los entornos; producción, staging, desarrollo, pruebas, así como flujos de trabajo CI. También dispone de comandos para gestionar todo el ciclo de vida de tu aplicación:
+
+Iniciar, detener y reconstruir servicios
+Ver el estado de los servicios en ejecución
+Transmitir la salida de registro de los servicios en ejecución
+Ejecutar un comando puntual en un servicio
+
+### Despliega un conjunto de imágenes
+
+¿Cómo gestionar frontend y backend con Docker Compose?
+Uno de los desafíos más comunes en el desarrollo de aplicaciones es gestionar eficazmente el frontend y backend. Con Docker Compose, puedes orquestar ambos elementos sin problemas de comunicación. Este escrito desglosará los pasos esenciales para desplegar un proyecto usando Docker Compose, asegurando una sincronización óptima entre ambos componentes.
+
+¿Qué necesitas para comenzar?
+Para seguir este tutorial, es importante tener un entorno configurado con dos carpetas, backend y frontend, dentro de tu editor de código, como Visual Studio Code. Aquí, el backend tiene una API sencilla que entrega un JSON con información personal. El frontend, por su parte, utiliza un script para obtener y mostrar estos datos en un HTML.
+
+¿Cómo configurar Docker Compose?
+El secreto para desplegar tanto el frontend como el backend radica en crear un archivo YAML llamado docker-compose.yaml. Este archivo especificará cómo deben ser lanzados ambos servicios, garantizando que el frontend solo se inicie después de que el backend esté operativo.
+
+Pasos clave para crear el archivo docker-compose.yaml:
+Especificar la versión:
+
+`version: '3.7'`
+
+La versión que se usa en este caso es la 3.7.
+
+Definir los servicios: Detallas cada contenedor que quieres desplegar.
+
+
+```
+services:
+  backend:
+    image: backend
+    build:
+      context: ./backend
+    ports:
+      - "8080:80"
+
+  frontend:
+    image: frontend
+    build:
+      context: ./frontend
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+```
+
+
+Ajustar la indentación: Este archivo utiliza sintaxis similar a Python; por ello, la indentación precisa es crucial.
+
+¿Qué pasos seguir para desplegar con Docker Compose?
+Una vez tengas tu archivo docker-compose.yaml configurado, es momento de trabajar con Docker Desktop y la terminal.
+
+Compilar imágenes:
+
+Verifica tu posición en el directorio, asegúrate de estar al nivel de tu archivo YAML.
+
+Usa el comando:
+
+docker-compose build
+Crea una imagen para cada servicio especificado.
+
+Iniciar contenedores:
+
+Emplea el comando:
+
+docker-compose up
+Crea una red para la comunicación de servicios y despliega los contenedores con sus respectivas imágenes.
+
+¿Cómo funciona la comunicación entre contenedores?
+Al desplegar tus proyectos, notarás que en un ambiente de contenedores, las aplicaciones no siempre se comunican a través de localhost. Dentro de Docker, la comunicación se realiza usando el nombre de los contenedores.
+
+Usar curl para comunicarse internamente:
+
+`curl http://clase19-backend-1:5000/getMyInfo`
+
+Esto significa que dentro de su propia red, los contenedores se llaman por sus nombres, permitiendo una administración más segura y eficaz de recursos y servicios. Puedes ajustar los puertos a elección, ya que no son fijos, y proteger tus aplicaciones de accesos no deseados desde el exterior.
+
+Docker Compose se destaca por su capacidad para simplificar la gestión de múltiples servicios, gracias a su funcionalidad automatizada y flexible. Anímate a explorar sus características y descubre cómo puede transformar tus procesos de desarrollo
+
 
 
